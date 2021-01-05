@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>You rated today <th:block th:text="${day.rating}"></th:block>/5</h1>
+
+    <a th:href="'/days/'+${day.id}+'/edit'">Edit</a>
+</body>
+</html>

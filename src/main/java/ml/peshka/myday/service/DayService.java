@@ -72,6 +72,13 @@ public class DayService {
         }
 
         return dayRepository.findAllByUser(user, Sort.by("date").ascending());
+    }
 
+    /**
+     * Save the entity in the database
+     * @param day The entity to save
+     */
+    public void saveDay(Day day) {
+        dayRepository.save(day);
     }
 }

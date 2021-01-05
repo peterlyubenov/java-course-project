@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div th:if="${errors != null}">
+        <th:block th:text="${errors.iterator().next()}"></th:block>
+    </div>
+    <form th:action="'/days/' + ${day.id} + '/edit'" method="POST">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+        <div>
+            <label for="rating">Rating:</label><br>
+            <input type="number" name="rating" id="rating" th:value="${day.rating}">
+        </div>
+
+        <div>
+            <label for="description">Date</label><br>
+            <input type="text" name="date" id="date" th:value="${day.date}">
+        </div>
+
+        <div>
+            <label for="description">Description</label><br>
+            <input type="text" name="description" id="description" th:value="${day.description}">
+        </div>
+
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</body>
+</html>
