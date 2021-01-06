@@ -1,5 +1,5 @@
 <th:block th:insert="fragments/general.html :: header('All entries')"></th:block>
-    <a href="/days/add">Create</a>
+    <a href="/days/add" class="btn btn-link">Create</a>
     <ul>
         <li th:each="day : ${days}">
             <a th:href="'/days/' + ${day.id}" th:text="${day.getRating()}" />
