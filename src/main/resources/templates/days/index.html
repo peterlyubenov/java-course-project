@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<th:block th:insert="fragments/general.html :: header('All entries')"></th:block>
+    <a href="/days/add">Create</a>
     <ul>
         <li th:each="day : ${days}">
-            <th:block th:text="${day.getRating()}"></th:block>
+            <a th:href="'/days/' + ${day.id}" th:text="${day.getRating()}" />
         </li>
     </ul>
-</body>
-</html>
+<th:block th:insert="fragments/general.html :: footer"></th:block>

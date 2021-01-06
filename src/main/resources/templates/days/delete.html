@@ -1,0 +1,10 @@
+<th:block th:insert="fragments/general.html :: header('Delete Record')"></th:block>
+    <h1>Are you sure?</h1>
+    <p>Are you sure you want to delete entry <th:block th:text="${day.date}" />?</p>
+    <a href="javascript:void(0)" onclick="document.getElementById('deleteForm').submit()" class="btn btn-danger">Confirm</a>
+    <a style="padding-left: 1em;" href="/days" class="btn text-primary btn-link">No, take me back</a>
+
+    <form th:action="'/days/' + ${day.id} + '/delete'" id="deleteForm" method="POST">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+    <th:block th:insert="fragments/general.html :: footer"></th:block>

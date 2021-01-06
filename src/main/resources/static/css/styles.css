@@ -1,0 +1,8 @@
+.card {
+    margin-top: 60px !important;
+}
+
+.card-title, .footer-big h4, .footer-big h5, .footer-brand, .info-title, .media .media-heading, .title {
+    font-family: "Poppins", sans-serif !important;
+    font-weight: 400;
+}

@@ -1,0 +1,27 @@
+<th:block th:insert="fragments/general.html :: header('Add Record')"></th:block>
+    <div th:if="${errors != null}">
+        <th:block th:text="${errors.get(0).getMessage()}"></th:block>
+    </div>
+    <form action="/days/add" method="POST">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+        <div class="form-field">
+            <label for="rating">Rating:</label><br>
+            <input class="form-control" type="number" name="rating" id="rating" th:value="${day.rating} ?: ''">
+        </div>
+
+        <div class="form-field">
+            <label for="description">Date</label><br>
+            <input class="form-control" type="text" name="date" id="date" th:value="${day.date} ?: ''">
+        </div>
+
+        <div class="form-field">
+            <label for="description">Description</label><br>
+            <input class="form-control" type="text" name="description" id="description" th:value="${day.description} ?: ''">
+        </div>
+
+        <div class="form-field">
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </div>
+    </form>
+<th:block th:insert="fragments/general.html :: footer"></th:block>

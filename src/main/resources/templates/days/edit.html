@@ -1,35 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<th:block th:insert="fragments/general.html :: header('Edit Day')"></th:block>
+    <a th:href="'/days/' + ${day.id}" class="btn btn-link"><i class="material-icons">arrow_back</i> Back</a>
+
     <div th:if="${errors != null}">
-        <th:block th:text="${errors.iterator().next()}"></th:block>
+        <th:block th:text="${errors.get(0).getMessage()}"></th:block>
     </div>
     <form th:action="'/days/' + ${day.id} + '/edit'" method="POST">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-        <div>
+        <div class="form-field">
             <label for="rating">Rating:</label><br>
-            <input type="number" name="rating" id="rating" th:value="${day.rating}">
+            <input class="form-control" type="number" name="rating" id="rating" th:value="${day.rating}">
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="description">Date</label><br>
-            <input type="text" name="date" id="date" th:value="${day.date}">
+            <input class="form-control" type="text" name="date" id="date" th:value="${day.date}">
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="description">Description</label><br>
-            <input type="text" name="description" id="description" th:value="${day.description}">
+            <input class="form-control" type="text" name="description" id="description" th:value="${day.description}">
         </div>
 
-        <div>
-            <input type="submit" value="Submit">
+        <div class="form-field">
+            <input class="btn btn-primary" type="submit" value="Submit">
         </div>
     </form>
-</body>
-</html>
+    <th:block th:insert="fragments/general.html :: footer"></th:block>

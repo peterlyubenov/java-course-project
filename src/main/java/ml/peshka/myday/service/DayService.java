@@ -31,6 +31,17 @@ public class DayService {
         }       
     }
 
+
+    public Day create(String description, java.sql.Date date, int rating) throws UserNotLoggedInException {
+        Day day = new Day();
+        day.setUser(userService.findLoggedInUser());
+        day.setDate(date);
+        day.setRating(rating);
+        day.setDescription(description);
+
+        return day;
+    }
+
     /**
      * Get your own day by id. This method validates that the day is owned by the
      * person requesting to see it
@@ -80,5 +91,13 @@ public class DayService {
      */
     public void saveDay(Day day) {
         dayRepository.save(day);
+    }
+
+    /**
+     * Delete a day entry
+     * @param day The entitiy to delete
+     */
+    public void deleteDay(Day day) {
+        dayRepository.delete(day);
     }
 }
