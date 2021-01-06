@@ -1,5 +1,6 @@
 package ml.peshka.myday.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -31,10 +32,9 @@ public class DayService {
     }
 
 
-    public Day create(String description, java.sql.Date date, int rating) {
+    public Day create(String description, int rating) {
         Day day = new Day();
         day.setUser(userService.findLoggedInUser());
-        day.setDate(date);
         day.setRating(rating);
         day.setDescription(description);
 
@@ -69,7 +69,7 @@ public class DayService {
     public List<Day> getOwnDays() {
         User user = userService.findLoggedInUser();
 
-        return dayRepository.findAllByUser(user, Sort.by("date").ascending());
+        return dayRepository.findAllByUser(user, Sort.by("date").descending());
     }
 
     /**
@@ -86,5 +86,13 @@ public class DayService {
      */
     public void deleteDay(Day day) {
         dayRepository.delete(day);
+    }
+
+    /**
+     * Checks whether or not the user can create another record i.e if a record from today doesn't already exist
+     * @return true if there are no records from today or false if there are
+     */
+    public boolean canCreate() {
+        return dayRepository.findAllByDate(Day.getDateFormat(new Date())).size() == 0;
     }
 }

@@ -1,8 +1,9 @@
 <th:block th:insert="fragments/general.html :: header('All entries')"></th:block>
-    <a href="/days/add" class="btn btn-link">Create</a>
+    <a th:if="${canCreate}" href="/days/add" class="btn btn-primary">Create</a>
+    <a th:if="${!canCreate}" href="/days/add" class="btn btn-primary disabled">Create</a>
     <ul>
         <li th:each="day : ${days}">
-            <a th:href="'/days/' + ${day.id}" th:text="${day.getRating()}" />
+            <a th:href="'/days/' + ${day.id}" th:text="${day.getFormattedDate()}" />
         </li>
     </ul>
 <th:block th:insert="fragments/general.html :: footer"></th:block>

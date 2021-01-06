@@ -36,6 +36,8 @@ public class DaysController {
     @GetMapping("/days")
     public String myDaysList(Model model) {
         List<Day> days = dayService.getOwnDays();
+
+        model.addAttribute("canCreate", dayService.canCreate()); 
         model.addAttribute("days", days);
         return "days/index";
     }
@@ -54,11 +56,17 @@ public class DaysController {
     }
 
     @PostMapping("/days/add")
-    public String createDay(Model model, @RequestParam("rating") int rating, @RequestParam("description") String description, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date date) {
+    public String createDay(Model model, @RequestParam("rating") int rating, @RequestParam("description") String description) {
+
+        // Only allow create if an entry doesn't exist with today's date
+        if(!dayService.canCreate()) {
+            return "redirect:/days";
+        }
+
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        Day day = dayService.create(description, new java.sql.Date(date.getTime()), rating);
+        Day day = dayService.create(description, rating);
         Set<ConstraintViolation<Day>> violations = validator.validate(day);
 
         if(violations.size() == 0) {
@@ -80,20 +88,13 @@ public class DaysController {
     }
 
     @PostMapping("/days/{id}/edit")
-    public String updateDay(
-        Model model, 
-        @PathVariable("id") int id, 
-        @RequestParam("rating") int rating, 
-        @RequestParam("description") String description, 
-        @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date date
-        ) {
+    public String updateDay(Model model, @PathVariable("id") int id, @RequestParam("rating") int rating, @RequestParam("description") String description) {
 
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
 
             Day day = dayService.getOwnById(id);
             day.setRating(rating);
-            day.setDate(new java.sql.Date(date.getTime()));
             day.setDescription(description);
 
             Set<ConstraintViolation<Day>> violations = validator.validate(day);
