@@ -2,7 +2,6 @@ package ml.peshka.myday.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
