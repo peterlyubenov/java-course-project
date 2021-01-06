@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import ml.peshka.myday.UserNotLoggedInException;
 import ml.peshka.myday.model.Role;
 import ml.peshka.myday.model.User;
 import ml.peshka.myday.repository.RoleRepository;
@@ -39,13 +38,8 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
-    public User findLoggedInUser() throws UserNotLoggedInException {
+    public User findLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth == null) {
-            // User is not logged in
-            throw new UserNotLoggedInException();
-        }
-
         User user = findUserByUserName(auth.getName());
         return user;
     }

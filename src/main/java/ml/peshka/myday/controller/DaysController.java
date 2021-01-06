@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ml.peshka.myday.helper.SortValidateViolations;
-import ml.peshka.myday.UserNotLoggedInException;
 import ml.peshka.myday.model.Day;
 import ml.peshka.myday.service.DayService;
 import ml.peshka.myday.service.UserService;
@@ -36,24 +35,16 @@ public class DaysController {
 
     @GetMapping("/days")
     public String myDaysList(Model model) {
-        try {
-            List<Day> days = dayService.getOwnDays();
-            model.addAttribute("days", days);
-            return "days/index";
-        } catch (UserNotLoggedInException e) {
-            return "redirect:/login"; 
-        }
+        List<Day> days = dayService.getOwnDays();
+        model.addAttribute("days", days);
+        return "days/index";
     }
 
     @GetMapping("/days/{id}")
     public String myDay(Model model, @PathVariable("id") int id) {
-        try {
-            Day day = dayService.getOwnById(id);
-            model.addAttribute("day", day);
-            return "days/read";
-        } catch(UserNotLoggedInException e) {
-            return "redirect:/login";
-        }
+        Day day = dayService.getOwnById(id);
+        model.addAttribute("day", day);
+        return "days/read";
     }
 
     @GetMapping("/days/add")
@@ -67,13 +58,7 @@ public class DaysController {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        Day day;
-        try {
-            day = dayService.create(description, new java.sql.Date(date.getTime()), rating);
-        } catch(UserNotLoggedInException ex) {
-            return "redirect:/login";
-        }
-
+        Day day = dayService.create(description, new java.sql.Date(date.getTime()), rating);
         Set<ConstraintViolation<Day>> violations = validator.validate(day);
 
         if(violations.size() == 0) {
@@ -90,13 +75,8 @@ public class DaysController {
 
     @GetMapping("/days/{id}/edit")
     public String editDay(Model model, @PathVariable("id") int id) {
-        try {
-            Day day = dayService.getOwnById(id);
-            model.addAttribute("day", day);
-            return "days/edit";
-        } catch(UserNotLoggedInException e) {
-            return "redirect:/login";
-        }
+        model.addAttribute("day", dayService.getOwnById(id));
+        return "days/edit";
     }
 
     @PostMapping("/days/{id}/edit")
@@ -111,51 +91,39 @@ public class DaysController {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
 
-            try {
-                Day day = dayService.getOwnById(id);
-                day.setRating(rating);
-                day.setDate(new java.sql.Date(date.getTime()));
-                day.setDescription(description);
+            Day day = dayService.getOwnById(id);
+            day.setRating(rating);
+            day.setDate(new java.sql.Date(date.getTime()));
+            day.setDescription(description);
 
-                Set<ConstraintViolation<Day>> violations = validator.validate(day);
-                if (violations.size() == 0) {
-                    dayService.saveDay(day);
-                }
-                else {
-                    List<ConstraintViolation<Day>> errors = new ArrayList<ConstraintViolation<Day>>(violations);
-
-                    Collections.sort(errors, new SortValidateViolations());
-
-                    model.addAttribute("errors", errors);
-                    model.addAttribute("day", day);
-                    return "days/edit";
-                }
-
-                return "redirect:/days/" + day.getId();
-            } catch(UserNotLoggedInException e) {
-                return "redirect:/login";
+            Set<ConstraintViolation<Day>> violations = validator.validate(day);
+            if (violations.size() == 0) {
+                dayService.saveDay(day);
             }
+            else {
+                List<ConstraintViolation<Day>> errors = new ArrayList<ConstraintViolation<Day>>(violations);
+
+                Collections.sort(errors, new SortValidateViolations());
+
+                model.addAttribute("errors", errors);
+                model.addAttribute("day", day);
+                return "days/edit";
+            }
+
+            return "redirect:/days/" + day.getId();
     }
 
     @GetMapping("/days/{id}/delete")
     public String delete(Model model, @PathVariable("id") int id) {
-        try {
-            Day day = dayService.getOwnById(id);
-            model.addAttribute("day", day);
-            return "days/delete";
-        } catch(UserNotLoggedInException e) {
-            return "redirect:/login";
-        }
+        Day day = dayService.getOwnById(id);
+        model.addAttribute("day", day);
+        return "days/delete";
     }
 
     @PostMapping("/days/{id}/delete")
     public String destroy(Model model, @PathVariable("id") int id) {
-        try {
-            Day day = dayService.getOwnById(id);
-            dayService.deleteDay(day);
-            return "redirect:/days";
-        } catch(UserNotLoggedInException e) {
-            return "redirect:/login";
-        }
+        Day day = dayService.getOwnById(id);
+        dayService.deleteDay(day);
+        return "redirect:/days";
     }
 }

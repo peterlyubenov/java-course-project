@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import ml.peshka.myday.UserNotLoggedInException;
 import ml.peshka.myday.model.Day;
 import ml.peshka.myday.model.User;
 import ml.peshka.myday.repository.DayRepository;
@@ -32,7 +31,7 @@ public class DayService {
     }
 
 
-    public Day create(String description, java.sql.Date date, int rating) throws UserNotLoggedInException {
+    public Day create(String description, java.sql.Date date, int rating) {
         Day day = new Day();
         day.setUser(userService.findLoggedInUser());
         day.setDate(date);
@@ -50,16 +49,10 @@ public class DayService {
      * @return The Day entity
      * @throws UserNotLoggedInException
      */
-    public Day getOwnById(int id) throws UserNotLoggedInException {
+    public Day getOwnById(int id) {
         Day day = getById(id);
 
-        User user;
-        try {
-            user = userService.findLoggedInUser();
-        } catch(UserNotLoggedInException ex) {
-            throw ex;
-        }
-
+        User user = userService.findLoggedInUser();
         if(day.getUser().getId() == user.getId()) {
             return day;
         }
@@ -73,14 +66,8 @@ public class DayService {
      * @return The user's entries
      * @throws UserNotLoggedInException
      */
-    public List<Day> getOwnDays() throws UserNotLoggedInException {
-        User user;
-        try {
-            user = userService.findLoggedInUser();
-        }
-        catch(UserNotLoggedInException ex) {
-            throw ex;
-        }
+    public List<Day> getOwnDays() {
+        User user = userService.findLoggedInUser();
 
         return dayRepository.findAllByUser(user, Sort.by("date").ascending());
     }
