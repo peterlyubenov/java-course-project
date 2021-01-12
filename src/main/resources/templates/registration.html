@@ -1,4 +1,4 @@
-<th:block th:insert="fragments/general.html :: header('Login')"></th:block>
+<th:block th:insert="fragments/authentication.html :: header('Login')"></th:block>
 <div class="container">
     <form autocomplete="off" action="#" th:action="@{/registration}"
             th:object="${user}" method="post" class="form-horizontal"

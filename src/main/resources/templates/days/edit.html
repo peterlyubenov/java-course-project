@@ -9,7 +9,12 @@
 
         <div class="form-field">
             <label for="rating">Rating:</label><br>
-            <input class="form-control" type="number" name="rating" id="rating" th:value="${day.rating}">
+            <a href="javascript:void(0)" class="btn btn-primary btn-fab btn-round btn-mood">😭</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-fab btn-round btn-mood">😢</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-fab btn-round btn-mood">😐</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-fab btn-round btn-mood">🙂</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-fab btn-round btn-mood">😀</a>
+            <input class="form-control" type="hidden" name="rating" th:value="${day.rating} ?: '3'" id="mood">
         </div>
 
         <div class="form-field">

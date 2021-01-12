@@ -13,4 +13,6 @@ import ml.peshka.myday.model.User;
 public interface DayRepository extends JpaRepository<Day, Integer> {
     List<Day> findAllByDate(String date);
     List<Day> findAllByUser(User user, Sort sort);
+
+    List<Day> findAllByDescriptionContaining(String description);
 }

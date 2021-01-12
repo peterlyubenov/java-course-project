@@ -76,4 +76,7 @@ public class Day {
         return "parse error";
     }
 
+    public String getEmoji() {
+        return new String[]{"😭", "😢", "😐", "🙂", "😀"}[this.getRating() - 1];
+    }
 }

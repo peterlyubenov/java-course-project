@@ -1,9 +1,24 @@
 <th:block th:insert="fragments/general.html :: header('All entries')"></th:block>
-    <a th:if="${canCreate}" href="/days/add" class="btn btn-primary">Create</a>
-    <a th:if="${!canCreate}" href="/days/add" class="btn btn-primary disabled">Create</a>
-    <ul>
-        <li th:each="day : ${days}">
-            <a th:href="'/days/' + ${day.id}" th:text="${day.getFormattedDate()}" />
-        </li>
-    </ul>
+    <div style="display: flex; justify-content: space-between;">
+        <div>
+            <a th:if="${canCreate}" href="/days/add" class="btn btn-primary">Create</a>
+            <a th:if="${!canCreate}" href="/days/add" class="btn btn-primary disabled">Create</a>
+        </div>
+        <div>
+            <form action="/days/search" method="GET" class="form-inline">
+                <input type="text" name="q" placeholder="Search by description..." class="form-control">
+                <button class="btn btn-primary"><i class="material-icons">search</i></button>
+            </form>
+        </div>
+    </div>
+    <div class="day-overview" th:each="day: ${days}">
+        <h3>
+            <a th:href="'/days/' + ${day.id}">
+                <th:block th:text="${day.getEmoji()}"></th:block> - <th:block th:text="${day.getFormattedDate()}"></th:block>
+            </a>
+        </h3>
+        <p th:text="${day.getDescription()}"></p>
+        <a th:href="'/days/' + ${day.id}" class="btn btn-primary">View</a>
+        <hr>
+    </div>
 <th:block th:insert="fragments/general.html :: footer"></th:block>

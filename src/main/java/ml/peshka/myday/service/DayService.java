@@ -37,6 +37,7 @@ public class DayService {
         day.setUser(userService.findLoggedInUser());
         day.setRating(rating);
         day.setDescription(description);
+        day.setDate(Day.getDateFormat(new Date()));
 
         return day;
     }
@@ -94,5 +95,9 @@ public class DayService {
      */
     public boolean canCreate() {
         return dayRepository.findAllByDate(Day.getDateFormat(new Date())).size() == 0;
+    }
+
+    public List<Day> findAllByDescription(String description) {
+        return dayRepository.findAllByDescriptionContaining(description);
     }
 }

@@ -11,7 +11,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +50,9 @@ public class DaysController {
 
     @GetMapping("/days/add")
     public String addDay(Model model) {
-        model.addAttribute("day", new Day());
+        Day day = new Day();
+        day.setRating(3);
+        model.addAttribute("day", day);
         return "days/create";
     }
 
@@ -126,5 +127,13 @@ public class DaysController {
         Day day = dayService.getOwnById(id);
         dayService.deleteDay(day);
         return "redirect:/days";
+    }
+
+    @GetMapping("/days/search")
+        public String search(Model model, @RequestParam("q") String q) {
+        List<Day> days = dayService.findAllByDescription(q);
+        model.addAttribute("canCreate", dayService.canCreate()); 
+        model.addAttribute("days", days);
+        return "days/index";
     }
 }

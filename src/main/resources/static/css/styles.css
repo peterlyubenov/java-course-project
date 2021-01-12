@@ -6,3 +6,17 @@
     font-family: "Poppins", sans-serif !important;
     font-weight: 400;
 }
+
+.btn-mood {
+    font-size: 3em;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-header .btn-logout {    
+    text-align: right;
+    display: block;
+}
